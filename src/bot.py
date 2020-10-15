@@ -26,5 +26,20 @@ class DiscordClient(discord.Client):
             ch = await gm.create_prv_channel()
             print('カテゴリ:{0}, テキスト:{1}, ボイス:{2}'.format(ch['category'].name, ch['text'].name, ch['voice'].name))
 
+        if message.content.startswith('$ch'):
+            gm = GuildManager(message.guild)
+            ch = gm.get_prv_channel()
+            print('カテゴリ:{0}, テキスト:{1}, ボイス:{2}'.format(ch['category'], ch['text'], ch['voice']))
+
+    async def on_voice_state_update(self, member, before, after):
+        print(
+            '--- voice state update ---'
+            f'Server: {member.guild.name}'
+            f'User: {member.display_name}'
+            f'Before: {before.channel} - Mute: {before.self_mute}'
+            f'After: {after.channel} - Mute: {after.self_mute}'
+        )
+
+
 client = DiscordClient()
 client.run(os.environ['DISCORD_TOKEN'])

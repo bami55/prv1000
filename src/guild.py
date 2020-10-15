@@ -18,3 +18,13 @@ class GuildManager():
             'text': text,
             'voice': voice
         }
+
+    def get_prv_channel(self):
+        category = self.guild.get_channel(766104828774449153)
+        text = self.guild.get_channel(766104830112038943)
+        voice = self.guild.get_channel(766104831400083456)
+        return {
+            'category': category,
+            'text': text,
+            'voice': voice
+        }
