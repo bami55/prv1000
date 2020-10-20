@@ -14,8 +14,7 @@ class VoiceManager():
 
         # DBボイス情報取得
         vc_guild = dm.get_guilds({'id': member.guild.id})
-        before_vc = dm.get_voice_state_channels(
-            {'voice_id': before.channel.id})
+        before_vc = dm.get_voice_state_channels({'voice_id': before.channel.id})
         after_vc = dm.get_voice_state_channels({'voice_id': after.channel.id})
 
         if before_vc is None:
