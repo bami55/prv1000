@@ -20,15 +20,9 @@ class VoiceManager():
 
         if before_vc is None:
             # 入室
+            pass
         elif after_vc is None:
             # 退室
+            pass
         else:
             return
-
-        print(
-            '--- voice state update ---'
-            f'Server: {self.guild.name}'
-            f'User: {member.display_name}'
-            f'Before: {before.channel} - Mute: {before.self_mute}'
-            f'After: {after.channel} - Mute: {after.self_mute}'
-        )

@@ -20,8 +20,6 @@ class DiscordClient(discord.Client):
         Args:
             guild ([type]): サーバー情報
         """
-        print('Joined guild {0}'.format(guild.name))
-
         # プラベチャンネル作成
         gm = GuildManager(dm, guild)
         ch = await gm.create_prv_channel()
@@ -35,14 +33,10 @@ class DiscordClient(discord.Client):
         if message.content.startswith('$hello'):
             gm = GuildManager(dm, message.guild)
             ch = await gm.create_prv_channel()
-            print('カテゴリ:{0}, テキスト:{1}, ボイス:{2}'.format(
-                ch['category'].name, ch['text'].name, ch['voice'].name))
 
         if message.content.startswith('$ch'):
             gm = GuildManager(dm, message.guild)
             ch = gm.get_prv_channel()
-            print('カテゴリ:{0}, テキスト:{1}, ボイス:{2}'.format(
-                ch['category'], ch['text'], ch['voice']))
 
     async def on_voice_state_update(self, member, before, after):
         """ボイスステータス変更
