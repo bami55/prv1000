@@ -22,7 +22,7 @@ class GuildManager():
             'text': text,
             'voice': voice
         }
-        self.dbm.add_guild(guild, ch)
+        self.dbm.add_guild(self.guild, ch)
 
     def get_prv_channel(self):
         self.dbm.get_guilds()

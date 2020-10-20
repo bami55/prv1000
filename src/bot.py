@@ -21,22 +21,8 @@ class DiscordClient(discord.Client):
             guild ([type]): サーバー情報
         """
         # プラベチャンネル作成
-        gm = GuildManager(dbm, guild)
+        gm = GuildManager(self.dbm, guild)
         ch = await gm.create_prv_channel()
-
-    async def on_message(self, message):
-        """メッセージ受信
-
-        Args:
-            message ([type]): メッセージ情報
-        """
-        if message.content.startswith('$hello'):
-            gm = GuildManager(dbm, message.guild)
-            ch = await gm.create_prv_channel()
-
-        if message.content.startswith('$ch'):
-            gm = GuildManager(dbm, message.guild)
-            ch = gm.get_prv_channel()
 
     async def on_voice_state_update(self, member, before, after):
         """ボイスステータス変更
@@ -46,8 +32,22 @@ class DiscordClient(discord.Client):
             before ([type]): ステータス変更前
             after ([type]): ステータス変更後
         """
-        vm = VoiceManager(dbm, member.guild)
-        vm.update_room_info(member, before, after)
+        vm = VoiceManager(self.dbm, member.guild)
+        vm.update_voice_state_channels(member, before, after)
+
+    async def on_message(self, message):
+        """メッセージ受信
+
+        Args:
+            message ([type]): メッセージ情報
+        """
+        if message.content.startswith('$hello'):
+            gm = GuildManager(self.dbm, message.guild)
+            ch = await gm.create_prv_channel()
+
+        if message.content.startswith('$ch'):
+            gm = GuildManager(self.dbm, message.guild)
+            ch = gm.get_prv_channel()
 
 
 client = DiscordClient()

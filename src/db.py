@@ -11,8 +11,7 @@ class DBManager():
             "mongodb+srv://mongo:{password}@cluster0.7zwnv.mongodb.net/{dbname}?retryWrites=true&w=majority".format(dbname=os.environ['DB_USER'], password=os.environ['DB_PASSWORD']))
         self.db = self.client[os.environ['DB_NAME']]
         self.guilds = self.db.get_collection('guilds')
-        self.voice_state_channels = self.db.get_collection(
-            'voice_state_channels')
+        self.voice_state_channels = self.db.get_collection('voice_state_channels')
 
     def add_guild(self, guild, channels=None):
         """サーバー新規登録
@@ -36,7 +35,8 @@ class DBManager():
             # ボイス新規登録
             self.voice_state_channels.insert_one({
                 'guild_id': guild_doc['id'],
-                'voice_id': guild_doc['voice_id']
+                'voice_id': guild_doc['voice_id'],
+                'members': [],
             })
 
         # サーバー新規登録
@@ -53,6 +53,20 @@ class DBManager():
             [type]: サーバー情報
         """
         return self.guilds.find(filter=filter, sort=sort)
+
+    def set_voice_state_channels(self, vsc_data):
+        """ボイス情報更新
+
+        Args:
+            vsc_data [type]: ボイス情報
+        """
+        self.voice_state_channels.replace_one(
+            {
+                'guild_id': vsc_data['guild_id'],
+                'voice_id': vsc_data['voice_id']
+            },
+            vsc_data
+        )
 
     def get_voice_state_channels(self, filter=None, sort=None):
         """ボイス情報取得
