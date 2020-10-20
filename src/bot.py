@@ -12,7 +12,7 @@ class DiscordClient(discord.Client):
     async def on_ready(self):
         # 起動確認
         print('Logged on as {0}!'.format(self.user))
-        self.dm = DBManager()
+        self.dbm = DBManager()
 
     async def on_guild_join(self, guild):
         """サーバーに参加
@@ -21,7 +21,7 @@ class DiscordClient(discord.Client):
             guild ([type]): サーバー情報
         """
         # プラベチャンネル作成
-        gm = GuildManager(dm, guild)
+        gm = GuildManager(dbm, guild)
         ch = await gm.create_prv_channel()
 
     async def on_message(self, message):
@@ -31,11 +31,11 @@ class DiscordClient(discord.Client):
             message ([type]): メッセージ情報
         """
         if message.content.startswith('$hello'):
-            gm = GuildManager(dm, message.guild)
+            gm = GuildManager(dbm, message.guild)
             ch = await gm.create_prv_channel()
 
         if message.content.startswith('$ch'):
-            gm = GuildManager(dm, message.guild)
+            gm = GuildManager(dbm, message.guild)
             ch = gm.get_prv_channel()
 
     async def on_voice_state_update(self, member, before, after):
@@ -46,7 +46,7 @@ class DiscordClient(discord.Client):
             before ([type]): ステータス変更前
             after ([type]): ステータス変更後
         """
-        vm = VoiceManager(dm, member.guild)
+        vm = VoiceManager(dbm, member.guild)
         vm.update_room_info(member, before, after)
 
 

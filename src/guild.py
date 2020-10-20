@@ -5,7 +5,7 @@ class GuildManager():
     """
 
     def __init__(self, db_manager, guild):
-        self.dm = db_manager
+        self.dbm = db_manager
         self.guild = guild
 
     async def create_prv_channel(self):
@@ -22,10 +22,10 @@ class GuildManager():
             'text': text,
             'voice': voice
         }
-        self.dm.add_guild(guild, ch)
+        self.dbm.add_guild(guild, ch)
 
     def get_prv_channel(self):
-        self.dm.get_guilds()
+        self.dbm.get_guilds()
         category = self.guild.get_channel(766104828774449153)
         text = self.guild.get_channel(766104830112038943)
         voice = self.guild.get_channel(766104831400083456)
