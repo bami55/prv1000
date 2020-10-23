@@ -1,3 +1,4 @@
+import discord
 
 
 class GuildManager():
@@ -11,15 +12,28 @@ class GuildManager():
     async def create_prv_channel(self):
         """プラベチャンネル作成
         """
-        name = 'prv1000'
-        text_name = f'{name}-text'
-        voice_name = f'{name}-voice'
-        category = await self.guild.create_category(name=name)
-        text = await self.guild.create_text_channel(name=text_name, category=category)
-        voice = await self.guild.create_voice_channel(name=voice_name, category=category)
+
+        # infoチャンネル権限
+        info_overwrites = {
+            self.guild.default_role: discord.PermissionOverwrite(
+                create_instant_invite=False,
+                manage_channels=False,
+                manage_messages=False,
+                manage_permissions=False,
+                manage_webhooks=False,
+                send_messages=False,
+                send_tts_messages=False,
+            )
+        }
+
+        category = await self.guild.create_category(name='prv1000')
+        info = await self.guild.create_text_channel(name='info', category=category, overwrites=info_overwrites)
+        general = await self.guild.create_text_channel(name='general', category=category)
+        voice = await self.guild.create_voice_channel(name='voice', category=category)
         ch = {
             'category': category,
-            'text': text,
+            'info': info,
+            'general': general,
             'voice': voice
         }
         self.dbm.add_guild(self.guild, ch)

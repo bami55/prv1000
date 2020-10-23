@@ -27,8 +27,10 @@ class DBManager():
         if channels is not None:
             guild_doc['category_id'] = channels['category'].id
             guild_doc['category_name'] = channels['category'].name
-            guild_doc['text_id'] = channels['text'].id
-            guild_doc['text_name'] = channels['text'].name
+            guild_doc['info_id'] = channels['info'].id
+            guild_doc['info_name'] = channels['info'].name
+            guild_doc['general_id'] = channels['general'].id
+            guild_doc['general_name'] = channels['general'].name
             guild_doc['voice_id'] = channels['voice'].id
             guild_doc['voice_name'] = channels['voice'].name
 
